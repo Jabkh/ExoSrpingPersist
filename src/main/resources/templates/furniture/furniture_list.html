@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Furniture List</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Furniture List</h1>
+    <a href="furniture/create" class="btn btn-primary">Register New Furniture</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="furniture : ${furnitures}">
+            <td th:text="${furniture.id}"></td>
+            <td th:text="${furniture.name}"></td>
+            <td>
+                <a th:href="@{/furniture/{id}(id=${furniture.id})}" class="btn btn-info">View</a>
+                <a th:href="@{/furniture/edit/{id}(id=${furniture.id})}" class="btn btn-warning">Edit</a>
+                <form th:action="@{/furniture/delete/{id}(id=${furniture.id})}" th:method="post" style="display:inline;">
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/" class="btn btn-secondary">Back to Home</a>
+</div>
+<!-- Add Bootstrap JS and its dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
