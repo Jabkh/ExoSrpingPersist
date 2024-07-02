@@ -24,18 +24,23 @@ public class CartItemService {
         return cartItemRepository.findById(id).orElse(null);
     }
 
+    public void addToCart(CartItem cartItem) {
+        cartItemRepository.save(cartItem);
+    }
+
+    public void removeFromCart(UUID id) {
+        cartItemRepository.deleteById(id);
+    }
+
+    public CartItem findByFurnitureId(UUID furnitureId) {
+        return cartItemRepository.findByFurnitureId(furnitureId);
+    }
+
     public void saveCartItem(CartItem cartItem) {
         cartItemRepository.save(cartItem);
     }
 
-    public void updateCartItem(UUID id, CartItem updatedCartItem) {
-        if (cartItemRepository.existsById(id)) {
-            updatedCartItem.setId(id);
-            cartItemRepository.save(updatedCartItem);
-        }
-    }
-
-    public void deleteCartItem(UUID id) {
-        cartItemRepository.deleteById(id);
+    public void clearCart() {
+        cartItemRepository.deleteAll();
     }
 }

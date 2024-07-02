@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panier</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="container">
+<h1 class="my-4">Panier</h1>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Prix</th>
+        <th>Quantité</th>
+        <th>Total</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cartItem : ${cartItems}">
+        <td>
+            <ul>
+                <li th:each="furniture : ${cartItem.furniture}" th:text="${furniture.name}"></li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="furniture : ${cartItem.furniture}" th:text="${furniture.description}"></li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="furniture : ${cartItem.furniture}" th:text="${furniture.price}"></li>
+            </ul>
+        </td>
+        <td>
+            <form th:action="@{'/cart/update/' + ${cartItem.id}}" method="post" class="form-inline">
+                <input type="number" name="quantity" min="1" max="999" th:value="${cartItem.quantity}"
+                       class="form-control mr-2" style="width: 80px;">
+                <button type="submit" class="btn btn-primary btn-sm">Mettre à jour</button>
+            </form>
+        </td>
+        <td>
+            <ul>
+                <li th:each="furniture : ${cartItem.furniture}" th:text="${furniture.price * cartItem.quantity}"></li>
+            </ul>
+        </td>
+        <td>
+            <form th:action="@{'/cart/remove/' + ${cartItem.id}}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/cart/clear}" method="post">
+    <button type="submit" class="btn btn-warning">Vider le Panier</button>
+</form>
+<a class="btn btn-primary mt-4" th:href="@{/furniture}">Continuer les Achats</a>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -36,6 +36,17 @@ public class FurnitureController {
         return "redirect:/furniture";
     }
 
+    @PostMapping("/furniture/save")
+    public String saveOrUpdateFurniture(@ModelAttribute Furniture furniture) {
+        if (furniture.getId() == null) {
+            furnitureService.saveFurniture(furniture);
+        } else {
+            furnitureService.updateFurniture(furniture.getId(), furniture);
+        }
+        return "redirect:/furniture";
+    }
+
+
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") UUID id, Model model) {
         Furniture furniture = furnitureService.getFurnitureById(id);

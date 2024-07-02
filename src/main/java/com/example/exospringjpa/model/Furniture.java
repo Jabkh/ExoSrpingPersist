@@ -4,10 +4,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.experimental.SuperBuilder;
+
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name = "furniture")
 public class Furniture {
@@ -25,6 +28,7 @@ public class Furniture {
 
     private int stock;
 
-    @OneToOne(mappedBy = "furniture", cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "cart_item_id")
     private CartItem cartItem;
 }
