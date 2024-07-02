@@ -31,7 +31,8 @@ public class CartItemController {
     }
 
     @PostMapping("/add/{furnitureId}")
-    public String addToCart(@PathVariable("furnitureId") UUID furnitureId, @RequestParam("quantity") int quantity) {
+    public String addToCart(@PathVariable("furnitureId") UUID furnitureId,
+                            @RequestParam("quantity") int quantity) {
         Furniture furniture = furnitureService.getFurnitureById(furnitureId);
         if (furniture != null && furniture.getStock() >= quantity) {
             CartItem cartItem = cartItemService.findByFurnitureId(furnitureId);
@@ -44,8 +45,12 @@ public class CartItemController {
             } else {
                 // CartItem does not exist, create new
                 cartItem = new CartItem();
-                cartItem.setFurniture(List.of(furniture));
+                cartItem.addFurniture(furniture); // Ajoute la furniture à CartItem
                 cartItem.setQuantity(quantity);
+                // Copier les propriétés de Furniture
+                cartItem.setName(furniture.getName());
+                cartItem.setDescription(furniture.getDescription());
+                cartItem.setPrice(furniture.getPrice());
                 cartItemService.addToCart(cartItem);
             }
 
@@ -77,7 +82,6 @@ public class CartItemController {
         return "redirect:/cart";
     }
 
-
     @PostMapping("/remove/{id}")
     public String removeFromCart(@PathVariable("id") UUID id) {
         CartItem cartItem = cartItemService.getCartItemById(id);
@@ -92,7 +96,6 @@ public class CartItemController {
         return "redirect:/cart";
     }
 
-
     @PostMapping("/clear")
     public String clearCart() {
         List<CartItem> cartItems = cartItemService.getAllCartItems();
@@ -106,5 +109,5 @@ public class CartItemController {
         cartItemService.clearCart();
         return "redirect:/cart";
     }
-
 }
+

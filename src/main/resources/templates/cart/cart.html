@@ -20,33 +20,16 @@
     </thead>
     <tbody>
     <tr th:each="cartItem : ${cartItems}">
-        <td>
-            <ul>
-                <li th:each="furniture : ${cartItem.furniture}" th:text="${furniture.name}"></li>
-            </ul>
-        </td>
-        <td>
-            <ul>
-                <li th:each="furniture : ${cartItem.furniture}" th:text="${furniture.description}"></li>
-            </ul>
-        </td>
-        <td>
-            <ul>
-                <li th:each="furniture : ${cartItem.furniture}" th:text="${furniture.price}"></li>
-            </ul>
-        </td>
+        <td th:text="${cartItem.name}">Nom</td>
+        <td th:text="${cartItem.description}">Description</td>
+        <td th:text="${cartItem.price}">Prix</td>
         <td>
             <form th:action="@{'/cart/update/' + ${cartItem.id}}" method="post" class="form-inline">
-                <input type="number" name="quantity" min="1" max="999" th:value="${cartItem.quantity}"
-                       class="form-control mr-2" style="width: 80px;">
+                <input type="number" name="quantity" min="1" max="999" th:value="${cartItem.quantity}" class="form-control mr-2" style="width: 80px;">
                 <button type="submit" class="btn btn-primary btn-sm">Mettre à jour</button>
             </form>
         </td>
-        <td>
-            <ul>
-                <li th:each="furniture : ${cartItem.furniture}" th:text="${furniture.price * cartItem.quantity}"></li>
-            </ul>
-        </td>
+        <td th:text="${cartItem.price * cartItem.quantity}">Total</td>
         <td>
             <form th:action="@{'/cart/remove/' + ${cartItem.id}}" method="post" class="d-inline">
                 <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
@@ -55,6 +38,7 @@
     </tr>
     </tbody>
 </table>
+
 <form th:action="@{/cart/clear}" method="post">
     <button type="submit" class="btn btn-warning">Vider le Panier</button>
 </form>
